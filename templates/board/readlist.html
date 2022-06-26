@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+    <body id="page-top">
+
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="/main"><img src="{% static 'imgfile/django.png' %}" alt="..." /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        {% if request.user.is_authenticated %}
+                                <li class="nav-item"><a class="nav-link" href="/main">User : {{request.user}}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/user/logout">logout</a></li>
+                        {% else %}
+                                <li class="nav-item"><a class="nav-link" href="/user/login">login</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/user/signup">signup</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="/board/readlist">board</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header class="masthead">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="masthead-heading text-uppercase">게시판</h2>
+                    <h4 class="section-heading text-uppercase">밑으로 스크롤해서 글을 확인하세요!</h4>
+                    <h8 class="masthead-heading text-uppercase">&nbsp;</h8>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-xl text-uppercase" onclick="location.href='/board/getdata';">글쓰기</button>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!-- 게시물 section -->
+         <section class="page-section bg-light" id="portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">글 목록</h2>
+                    <h3 class="section-subheading text-muted">클릭해서 확인해볼까요?</h3>
+                </div>
+                <div class="row">
+                    {% for data in datas %}
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <!-- 게시물-->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link"  href="/board/readdata/{{data.id}}">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="{% static 'imgfile/django.png' %}" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading"> {{ data.title }}</div>
+                                <div class="portfolio-caption-subheading text-muted">{{data.create_date}} {{ data.writer }}님의 글</div>
+
+                                <div class="portfolio-caption-heading" onclick="sendRequest({{data.id}}, this)">
+                                    {% if request.user in data.like.all %}
+                                        ♥ {{ data.like.count }}
+                                    {% else %}
+                                        ♡ {{ data.like.count }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    <script>
+                        function sendRequest(bid, event) {
+                            var httpRequest = new XMLHttpRequest();
+                            httpRequest.onreadystatechange = function() {
+                                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200 ) {
+                                    console.log(httpRequest.responseText);
+
+                                    var json_data = JSON.parse(httpRequest.responseText)
+                                    if(json_data['message']=='ok'){
+                                        event.innerText = "♥" + json_data['like_cnt'] ;
+                                    }
+                                    else {
+                                        event.innerText = "♡" + json_data['like_cnt'] ;
+                                    }
+                                }
+                            };
+                            httpRequest.open("GET","/like/"+bid, true);
+                            httpRequest.send();
+                        }
+                    </script>
+
+                </div>
+            </div>
+        </section>
+
+ {% endblock %}

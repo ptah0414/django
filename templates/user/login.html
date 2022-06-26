@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="/main"><img src="{% static 'imgfile/profile.png' %}" alt="..." /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/user/signup">signup</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 로그인 양식-->
+        <section class="page-section" id="contact">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">LOGIN</h2>
+                    <h3 class="section-subheading text-muted">로그인 하세요!</h3>
+                </div>
+                <form id="contactForm" action="/user/login" method="post" >
+                     {% csrf_token %}
+                    <div class="row align-items-stretch mb-6">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- name input-->
+                                <input name="username" class="form-control" id="name" type="text" placeholder="enter name" data-sb-validations="required" />
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <div class="form-group">
+                                <!-- password input-->
+                                <input name="password" class="form-control" id="email" type="password" placeholder="enter password" data-sb-validations="required,password" />
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An password is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <p style="color:white;"><h8 class="my-3">&#8226; 로그인 실패시 다시 로그인 화면이 나옵니다</h8></p>
+                                <p style="color:white;"><h8 class="my-3"><h8 class="my-3">&#8226; 로그인해서 게시글을 작성해보세요</h8></p>
+                                <p style="color:white;"><h8 class="my-3"><h8 class="my-3">&#8226; 로그인하면 댓글도 작성 가능하답니다</h8></p>
+                                <p style="color:white;"><h8 class="my-3"><h8 class="my-3">&#8226; Kakao 소셜 로그인도 가능합니다</h8></p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-xl text-uppercase" >login</button>
+                    </div>
+
+                </form>
+                <br>
+                <hr/>
+                <div class="text-center">
+                <a id="custom-login-btn" href="javascript:loginWithKakao()">
+                    <img
+                    src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+                    width="222"
+                    alt="카카오 로그인 버튼"
+                        />
+                </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-section" id="services">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">이건우</h2>
+                    <h3 class="section-subheading text-muted">그는 무슨 공부를 했나요?</h3>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">네트워크</h4>
+                        <a class="navbar-brand" href="https://google.com/search?q=네트워크">
+                            <p class="text-muted">Click해서 네트워크를 알아보세요!</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Django</h4>
+                        <a class="navbar-brand" href="https://google.com/search?q=django">
+                            <p class="text-muted">Click해서 Django를 알아봐요!</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Python</h4>
+                        <a class="navbar-brand" href="https://google.com/search?q=python">
+                            <p class="text-muted">Click해서 Python에 대해 알아볼까요!</p>
+                        </a>t
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% endblock %}
